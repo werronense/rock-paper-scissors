@@ -4,10 +4,65 @@
     <meta charset="utf-8">
     <title>Rock-Paper-Scissors Game</title>
     <script type="text/javascript">
+      const options = ["rock", "paper", "scissors"];
+
+      // randomly generate a computer move
       function computerPlay() {
-        const options = ["rock", "paper", "scissors"];
-        return options[Math.floor(Math.random()) * 3];
+        return options[Math.floor(Math.random() * 3)];
       }
+
+      // determine the winner of a round
+      function playRound(computerSelection, playerSelection) {
+        const pIndex = options.indexOf(playerSelection);
+        const cIndex = options.indexOf(computerSelection);
+
+        if (pIndex === cIndex) {
+          return "t";
+        } else if ((cIndex - pIndex === 2) || pIndex == cIndex + 1) {
+          return "w";
+        } else {
+          return "l";
+        }
+      }
+
+      // play a five round game
+      function game() {
+        const record = {win: 0, loss: 0, tie: 0};
+        let roundResult = "";
+        let roundNumber = 1;
+
+        // play five rounds
+        while (roundNumber <= 5) {
+          const playerSelection = prompt("Choose your move: ").toLowerCase();
+          const computerSelection = computerPlay();
+          roundResult = playRound(computerSelection, playerSelection);
+
+          if (roundResult === "t") {
+            record.tie += 1;
+            console.log("Tie!");
+          } else if (roundResult === "w") {
+            record.win += 1;
+            console.log(`You win: ${playerSelection} beats ${computerSelection}!`);
+          } else {
+            record.loss += 1;
+            console.log(`You lose: ${computerSelection} beats ${playerSelection}!`);
+          }
+
+          roundNumber += 1;
+        }
+
+        // log final result
+        if (record.win > record.loss) {
+          console.log(`You won the game ${record.win}:${record.loss}!`);
+        } else if (record.win < record.loss) {
+          console.log(`You lost the game ${record.win}:${record.loss}!`);
+        } else {
+          console.log("It was a tie!");
+        }
+      }
+
+      // initiate five-round game
+      game();
     </script>
   </head>
   <body>
